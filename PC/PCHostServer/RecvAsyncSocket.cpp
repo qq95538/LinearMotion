@@ -21,6 +21,7 @@ CRecvAsyncSocket::CRecvAsyncSocket():bIsReadyToSend(false)
 	}
 	uSendersPort = 8001;
 	strSendersIp = CLIENT_IP_ADDRESS_STRING;
+
 }
 
 CRecvAsyncSocket::~CRecvAsyncSocket()

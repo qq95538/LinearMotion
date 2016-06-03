@@ -34,6 +34,35 @@ CPCHostServerView::CPCHostServerView():bSendMousePointWhenItChanges(false)
 {
 	// TODO: 在此处添加构造代码
 	pRecvAsyncSocket = new CRecvAsyncSocket;
+
+	;
+
+	DWORD dwBytesReturned = 0;
+	BOOL bNewBehavior = FALSE;
+	DWORD status;
+
+	// disable  new behavior using
+	// IOCTL: SIO_UDP_CONNRESET
+	status = WSAIoctl(pRecvAsyncSocket->m_hSocket, SIO_UDP_CONNRESET,
+		&bNewBehavior, sizeof(bNewBehavior),
+		NULL, 0, &dwBytesReturned,
+		NULL, NULL);
+
+	if (SOCKET_ERROR == status)
+	{
+		DWORD dwErr = WSAGetLastError();
+		if (WSAEWOULDBLOCK == dwErr)
+		{
+			// nothing to do
+			return;
+		}
+		else
+		{
+			printf("WSAIoctl(SIO_UDP_CONNRESET) Error: %d\n", dwErr);
+			return;
+		}
+	}
+
 	
 }
 
